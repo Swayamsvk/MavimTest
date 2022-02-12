@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./AddOrder.css";
 import { useNavigate } from "react-router-dom";
 import { Grid, Paper, TextField, Button } from "@mui/material";
 
@@ -12,6 +11,7 @@ const AddOrder = (props) => {
     Size: "",
     Table_No: "",
   });
+  const [incomplete, setIncomplete] = useState(false);
 
   const { Crust, Flavor, Size, Table_No } = addOrder;
 
@@ -21,22 +21,23 @@ const AddOrder = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const Final = {
-      Crust: Crust,
-      Flavor: Flavor,
-      Size: Size,
-      Table_No: Table_No,
-    };
+    if (Crust === "" || Flavor === "" || Size === "" || Table_No === "") {
+      setIncomplete(true);
+    } else {
+      const Final = {
+        Crust: Crust,
+        Flavor: Flavor,
+        Size: Size,
+        Table_No: Table_No,
+      };
 
-    console.log(Final);
-
-    axios
-      .post("https://61b6012ac95dd70017d40dcd.mockapi.io/api/V1/Pizza", Final)
-      .then((res) => {
-        console.log(res.data);
-        navigate("/pizzaorders");
-      })
-      .catch((error) => console.log(error));
+      axios
+        .post("https://61b6012ac95dd70017d40dcd.mockapi.io/api/V1/Pizza", Final)
+        .then((res) => {
+          navigate("/pizzaorders");
+        })
+        .catch((error) => console.log(error));
+    }
   };
   const paperStyle = {
     padding: 20,
@@ -53,6 +54,11 @@ const AddOrder = (props) => {
       <Paper elevation={10} style={paperStyle}>
         <Grid align="center">
           <h2 style={{ color: "#0096FF" }}>Add Order</h2>
+          {incomplete ? (
+            <p style={{ color: "#FF0000" }}>Fill all the blanks.</p>
+          ) : (
+            <div />
+          )}
         </Grid>
         <form onSubmit={onSubmit}>
           <TextField
@@ -64,8 +70,8 @@ const AddOrder = (props) => {
             className="field"
             style={{ marginTop: "2%" }}
             fullWidth
-            required
           />
+
           <TextField
             type="text"
             placeholder="Flavor"
@@ -75,8 +81,8 @@ const AddOrder = (props) => {
             className="field"
             style={{ marginTop: "2%" }}
             fullWidth
-            required
           />
+
           <TextField
             type="text"
             placeholder="Size"
@@ -86,8 +92,8 @@ const AddOrder = (props) => {
             className="field"
             style={{ marginTop: "2%" }}
             fullWidth
-            required
           />
+
           <TextField
             type="text"
             placeholder="Table_No"
@@ -97,8 +103,8 @@ const AddOrder = (props) => {
             className="field"
             style={{ marginTop: "2%" }}
             fullWidth
-            required
           />
+
           <br />
           <Button
             type="submit"

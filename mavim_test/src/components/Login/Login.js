@@ -18,6 +18,7 @@ const Login = (props) => {
   });
 
   const [error, setError] = useState(false);
+  const [incomplete, setIncomplete] = useState(false);
 
   const { username, password } = user;
 
@@ -26,10 +27,15 @@ const Login = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
     setError(false);
-    if (username === "test" && password === "test") {
-      navigate("/pizzaorders");
+    setIncomplete(false);
+    if (username == "" || password == "") {
+      setIncomplete(true);
     } else {
-      setError(true);
+      if (username === "test" && password === "test") {
+        navigate("/pizzaorders");
+      } else {
+        setError(true);
+      }
     }
   };
 
@@ -75,6 +81,11 @@ const Login = (props) => {
           ) : (
             <div />
           )}
+          {incomplete ? (
+            <p style={{ color: "#FF0000" }}>Fill all the blanks.</p>
+          ) : (
+            <div />
+          )}
         </Grid>
 
         <form onSubmit={onSubmit}>
@@ -86,7 +97,6 @@ const Login = (props) => {
             onChange={onChange}
             style={{ marginTop: "2%" }}
             fullWidth
-            required
           />
 
           <TextField
@@ -95,7 +105,6 @@ const Login = (props) => {
             name="password"
             value={password}
             onChange={onChange}
-            required
             style={{ marginTop: "2%" }}
             fullWidth
           />
