@@ -8,9 +8,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useNavigate } from "react-router-dom";
 
 function PizzaOrders(props) {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
   const btnstyle = {
     width: "30px",
     height: "20px",
@@ -27,7 +29,7 @@ function PizzaOrders(props) {
   };
 
   const maincontentstyle = {
-    marginLeft: "15%",
+    marginLeft: "1%",
     marginTop: "1%",
     marginRight: "1%",
   };
@@ -56,10 +58,10 @@ function PizzaOrders(props) {
   }, []);
 
   const handleClick = () => {
-    window.location = "/addpizza";
+    navigate("/addpizza");
   };
   const logout = () => {
-    window.location = "/";
+    navigate("/");
   };
 
   const cancelOrder = (id) => {
@@ -109,9 +111,9 @@ function PizzaOrders(props) {
             <TableHead>
               <TableRow>
                 <TableCell>Id</TableCell>
-                <TableCell align="right">Size&nbsp;(g)</TableCell>
-                <TableCell align="right">Flavour&nbsp;(g)</TableCell>
-                <TableCell align="right">Crust&nbsp;(g)</TableCell>
+                <TableCell align="center">Size&nbsp;(g)</TableCell>
+                <TableCell align="center">Flavour&nbsp;(g)</TableCell>
+                <TableCell align="center">Crust&nbsp;(g)</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -123,9 +125,9 @@ function PizzaOrders(props) {
                   <TableCell component="th" scope="row">
                     {curData.id}
                   </TableCell>
-                  <TableCell align="right">{curData.Size}</TableCell>
-                  <TableCell align="right">{curData.Flavor}</TableCell>
-                  <TableCell align="right">{curData.Crust}</TableCell>
+                  <TableCell align="center">{curData.Size}</TableCell>
+                  <TableCell align="center">{curData.Flavor}</TableCell>
+                  <TableCell align="center">{curData.Crust}</TableCell>
                   <Button
                     color="primary"
                     variant="contained"

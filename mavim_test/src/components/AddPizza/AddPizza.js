@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "./AddPizza.css";
+import { useNavigate } from "react-router-dom";
 
 const AddPizza = (props) => {
+  const navigate = useNavigate();
   const [addPizza, setAddPizza] = useState({
     Crust: "",
     Flavor: "",
@@ -31,7 +33,7 @@ const AddPizza = (props) => {
       .post("https://61b6012ac95dd70017d40dcd.mockapi.io/api/V1/Pizza", Final)
       .then((res) => {
         console.log(res.data);
-        window.location = "/pizzaorders";
+        navigate("/pizzaorders");
       })
       .catch((error) => console.log(error));
   };

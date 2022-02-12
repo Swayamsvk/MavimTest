@@ -3,11 +3,15 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Grid, Paper, TextField, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Login = (props) => {
   useEffect(() => {
     document.body.style.backgroundColor = "#DCDCDC";
   }, []);
+
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -23,7 +27,7 @@ const Login = (props) => {
     e.preventDefault();
     setError(false);
     if (username === "test" && password === "test") {
-      window.location = "/pizzaorders";
+      navigate("/pizzaorders");
     } else {
       setError(true);
     }
