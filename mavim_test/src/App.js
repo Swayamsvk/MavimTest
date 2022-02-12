@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AddPizza from "./components/AddPizza/AddPizza";
+import AddOrder from "./components/AddOrder/AddOrder";
 import Login from "./components/Login/Login";
 import PizzaOrders from "./components/PizzaOrders/PizzaOrders";
 
@@ -10,7 +10,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/pizzaorders" element={<PizzaOrders />} />
-          <Route path="/addpizza" element={<AddPizza />} />
+          <Route path="/addorder" element={<AddOrder />} />
         </Routes>
       </BrowserRouter>
     </div>

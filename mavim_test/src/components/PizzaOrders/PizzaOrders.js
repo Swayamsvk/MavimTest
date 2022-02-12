@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 function PizzaOrders(props) {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const btnstyle = {
     width: "30px",
@@ -22,8 +23,7 @@ function PizzaOrders(props) {
     fontSize: 10,
   };
 
-  const maintextstyle = {
-    fontSize: 30,
+  const headertextstyle = {
     color: "#0047AB",
     fontWeight: "bold",
   };
@@ -32,11 +32,6 @@ function PizzaOrders(props) {
     marginLeft: "1%",
     marginTop: "1%",
     marginRight: "1%",
-  };
-
-  const secondarytextstyle = {
-    fontSize: 30,
-    color: "#0047AB",
   };
 
   const appbarstyle = {
@@ -49,7 +44,7 @@ function PizzaOrders(props) {
     axios
       .get("https://61b6012ac95dd70017d40dcd.mockapi.io/api/V1/Pizza")
       .then((response) => {
-        console.log(response.data, "this is the data");
+        setLoading(false);
         setData(response.data);
       })
       .catch((error) => {
@@ -58,7 +53,7 @@ function PizzaOrders(props) {
   }, []);
 
   const handleClick = () => {
-    navigate("/addpizza");
+    navigate("/addorder");
   };
   const logout = () => {
     navigate("/");
@@ -106,43 +101,53 @@ function PizzaOrders(props) {
       </div>
 
       <div style={maincontentstyle}>
-        <TableContainer component={Paper}>
-          <Table size="small" aria-label="a dense table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell align="center">Size&nbsp;(g)</TableCell>
-                <TableCell align="center">Flavour&nbsp;(g)</TableCell>
-                <TableCell align="center">Crust&nbsp;(g)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((curData, id) => (
-                <TableRow
-                  key={id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {curData.id}
+        {loading == false ? (
+          <TableContainer component={Paper}>
+            <Table size="small" aria-label="a dense table">
+              <TableHead>
+                <TableRow>
+                  <TableCell style={headertextstyle}>Id</TableCell>
+                  <TableCell align="center" style={headertextstyle}>
+                    Size&nbsp;(g)
                   </TableCell>
-                  <TableCell align="center">{curData.Size}</TableCell>
-                  <TableCell align="center">{curData.Flavor}</TableCell>
-                  <TableCell align="center">{curData.Crust}</TableCell>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    style={btnstyle}
-                    onClick={() => {
-                      cancelOrder(curData.id);
-                    }}
-                  >
-                    Cancel
-                  </Button>
+                  <TableCell align="center" style={headertextstyle}>
+                    Flavour&nbsp;(g)
+                  </TableCell>
+                  <TableCell align="center" style={headertextstyle}>
+                    Crust&nbsp;(g)
+                  </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {data.map((curData, id) => (
+                  <TableRow
+                    key={id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {curData.id}
+                    </TableCell>
+                    <TableCell align="center">{curData.Size}</TableCell>
+                    <TableCell align="center">{curData.Flavor}</TableCell>
+                    <TableCell align="center">{curData.Crust}</TableCell>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      style={btnstyle}
+                      onClick={() => {
+                        cancelOrder(curData.id);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <h1>Loading...</h1>
+        )}
       </div>
     </div>
   );
